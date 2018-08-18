@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proyecto.Examen.DAO", "Proy
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proyecto.Examen.WebApi", "Proyecto.Examen.WebApi\Proyecto.Examen.WebApi.csproj", "{68D4E466-656D-47DD-9F66-F5926E2346EF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proyecto.Examen.Logger", "Proyecto.Examen.Logger\Proyecto.Examen.Logger.csproj", "{DFF8E790-FD56-4919-A3B5-327828C7977E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{68D4E466-656D-47DD-9F66-F5926E2346EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{68D4E466-656D-47DD-9F66-F5926E2346EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{68D4E466-656D-47DD-9F66-F5926E2346EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFF8E790-FD56-4919-A3B5-327828C7977E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFF8E790-FD56-4919-A3B5-327828C7977E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFF8E790-FD56-4919-A3B5-327828C7977E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFF8E790-FD56-4919-A3B5-327828C7977E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
