@@ -30,24 +30,14 @@ namespace Proyecto.Examen.WebApi._Formats
             string audienceId = data.Properties.Dictionary.ContainsKey(AudiencePropertyKey) ? data.Properties.Dictionary[AudiencePropertyKey] : null;
 
             if (string.IsNullOrWhiteSpace(audienceId)) throw new InvalidOperationException("AuthenticationTicket.Properties does not include audience");
-
-            Audience audience = AudiencesStore.FindAudience(audienceId);
-
-            string symmetricKeyAsBase64 = audience.Base64Secret;
-
+            string symmetricKeyAsBase64 = "IxrAjDoa2FqElO7IhrSrUJELhUckePEPVpaePlS_Xaw";
             var keyByteArray = TextEncodings.Base64Url.Decode(symmetricKeyAsBase64);
-
             var signingKey = new HmacSigningCredentials(keyByteArray);
-
             var issued = data.Properties.IssuedUtc;
             var expires = data.Properties.ExpiresUtc;
-
             var token = new JwtSecurityToken(_issuer, audienceId, data.Identity.Claims, issued.Value.UtcDateTime, expires.Value.UtcDateTime, signingKey);
-
             var handler = new JwtSecurityTokenHandler();
-
             var jwt = handler.WriteToken(token);
-
             return jwt;
         }
         /// <summary>
@@ -60,5 +50,4 @@ namespace Proyecto.Examen.WebApi._Formats
             throw new NotImplementedException();
         }
     }
-}
 }

@@ -1,12 +1,13 @@
-﻿using Microsoft.Owin.Security;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
 using Proyecto.Examen.WebApi._Models;
+using Proyecto.Examen.WebApi._Owin;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace Proyecto.Examen.WebApi._Providers
 {
@@ -29,11 +30,11 @@ namespace Proyecto.Examen.WebApi._Providers
                 return Task.FromResult<object>(null);
             }
 
-            var audience = AudiencesStore.FindAudience(context.ClientId);
+            //var audience = AudiencesStore.FindAudience(context.ClientId);
 
-            if (audience == null)
+            if(context.ClientId != Startup.clave)
             {
-                context.SetError("invalid_clientId", string.Format("Invalid client_id '{0}'", context.ClientId));
+                context.SetError("App No registrada", string.Format("Clave para la app no valida '{0}'", context.ClientId));
                 return Task.FromResult<object>(null);
             }
 
@@ -44,7 +45,7 @@ namespace Proyecto.Examen.WebApi._Providers
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
             context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
-            var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
+            var userManager = context.OwinContext.GetUserManager<UserManager>();
             User user = null;
             if (context.UserName.Contains("@"))
                 user = await userManager.FindByEmailAsync(context.UserName);
@@ -70,6 +71,15 @@ namespace Proyecto.Examen.WebApi._Providers
                     }
                 });
             ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(userManager, "JWT");
+            LoginProvider login = new LoginProvider();
+            login.Insert(new LoginUser()
+            {
+                AppId = context.ClientId,
+                Date = DateTime.Now,
+                UserId = user.Id,
+                Id = Guid.NewGuid().ToString()
+            });
+            userManager.AddLoginAsync(user.Id, new UserLoginInfo("App Web", context.ClientId) { });
             var ticket = new AuthenticationTicket(oAuthIdentity, props);
             context.Validated(ticket);
         }

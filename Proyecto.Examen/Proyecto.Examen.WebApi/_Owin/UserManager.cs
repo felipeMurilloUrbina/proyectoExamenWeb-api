@@ -32,7 +32,7 @@ namespace Proyecto.Examen.WebApi._Owin
         /// <returns></returns>
         public static UserManager Create(IdentityFactoryOptions<UserManager> options, IOwinContext context)
         {
-            var appDbContext = context.Get<UserDBContext>();
+          var appDbContext = context.Get<UserDBContext>();
             var appUserManager = new UserManager(new UserStore<User>(appDbContext));
 
             // Configure validation logic for usernames
@@ -51,9 +51,7 @@ namespace Proyecto.Examen.WebApi._Owin
                 RequireLowercase = true,
                 RequireUppercase = true,
             };
-
             //appUserManager.EmailService = new EmailService();
-
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null)
             {

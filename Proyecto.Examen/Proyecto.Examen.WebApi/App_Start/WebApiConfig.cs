@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Proyecto.Examen.WebApi._Formats;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
@@ -19,6 +20,7 @@ namespace Proyecto.Examen.WebApi
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+            AutoMapperConfig.Config();
         }
     }
 }
