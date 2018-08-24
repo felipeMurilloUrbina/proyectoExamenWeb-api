@@ -12,7 +12,7 @@ using System.Web.Http;
 namespace Proyecto.Examen.WebApi.Controllers
 {
     [RoutePrefix("api/reportes")]
-    public class ReportesController : BaseController
+    public class ReportsController : BaseController
     {
         /// <summary>
         /// Uri que retorna los inicio de session dependiendo el rol.
