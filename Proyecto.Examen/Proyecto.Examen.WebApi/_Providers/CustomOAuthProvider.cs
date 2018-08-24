@@ -79,7 +79,13 @@ namespace Proyecto.Examen.WebApi._Providers
                 UserId = user.Id,
                 Id = Guid.NewGuid().ToString()
             });
-            userManager.AddLoginAsync(user.Id, new UserLoginInfo("App Web", context.ClientId) { });
+            try
+            {
+                userManager.AddLoginAsync(user.Id, new UserLoginInfo("App Web", context.ClientId) { });
+            }
+            catch
+            {
+            }
             var ticket = new AuthenticationTicket(oAuthIdentity, props);
             context.Validated(ticket);
         }

@@ -1,27 +1,30 @@
-﻿using Proyecto.Examen.WebApi._Attributes;
-using Microsoft.AspNet.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
-using Microsoft.AspNet.Identity.EntityFramework;
+﻿using Microsoft.AspNet.Identity.Owin;
+using Proyecto.Examen.WebApi._Attributes;
 using Proyecto.Examen.WebApi._Dtos;
+using Proyecto.Examen.WebApi._Owin;
+using System.Web.Http;
+using System.Net.Http;
+using System.Data.Entity;
+using System.Threading.Tasks;
+using AutoMapper;
+using Proyecto.Examen.WebApi._Models;
+using System;
 
 namespace Proyecto.Examen.WebApi.Controllers
 {
     [RoutePrefix("api/roles"), CustomAuthorize(Role ="Administrador")]
-    public class RolesController : ApiController
+    public class RolesController : BaseController
     {
         /// <summary>
         /// Uri que retorna todos los roles activos.
         /// </summary>
         /// <returns></returns>
         [Route(""), HttpGet]
-        public IHttpActionResult Get()
+        public async Task<IHttpActionResult> Get()
         {
-            return Ok();
+            var context = Request.GetOwinContext().Get<UserDBContext>();
+            var items = await context.Roles.ToListAsync();
+            return Ok(new { items});
         }
         /// <summary>
         /// Uri que retorna un role con un id especifico.
@@ -42,6 +45,27 @@ namespace Proyecto.Examen.WebApi.Controllers
         [Route(""), HttpPost]
         public IHttpActionResult Post(RoleDTO role)
         {
+            using (var context = Request.GetOwinContext().Get<UserDBContext>())
+            {
+                var roleDB = Mapper.Map<RoleDTO, Role>(role);
+                roleDB.Id = Guid.NewGuid().ToString();
+                string builkQuery = "";
+                foreach(var permission in roleDB.Permissions)
+                {
+                    builkQuery += $"INSERT INTO RolePermissions(RoleId, PermissionId) VALUES ('{roleDB.Id}', {permission.Id});";
+                }
+                context.Roles.Add(roleDB);
+                
+                try
+                {
+                    context.SaveChanges();
+                    context.Database.ExecuteSqlCommand($"delete from RolePermissions where RoleId='{roleDB.Id}'");
+                    context.Database.ExecuteSqlCommand(builkQuery);
+                }
+                catch (System.Exception e )
+                {
+                }
+            }
             return Ok();
 
         }
@@ -55,7 +79,6 @@ namespace Proyecto.Examen.WebApi.Controllers
         public IHttpActionResult Put(int id, RoleDTO role)
         {
             return Ok();
-
         }
         /// <summary>
         /// Uri que elimina un rol en especifico.
@@ -66,7 +89,6 @@ namespace Proyecto.Examen.WebApi.Controllers
         public IHttpActionResult Delete(int id)
         {
             return Ok();
-
         }
 
     }

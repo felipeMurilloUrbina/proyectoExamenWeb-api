@@ -14,6 +14,8 @@ namespace Proyecto.Examen.WebApi._Formats
         {
             Mapper.Initialize(cfg => {
                 cfg.CreateMap<User, UserDTO>().ReverseMap();
+                cfg.CreateMap<Role, RoleDTO>().ReverseMap();
+                cfg.CreateMap<Permission, PermissionDTO>().ReverseMap();
             });
         }
     }

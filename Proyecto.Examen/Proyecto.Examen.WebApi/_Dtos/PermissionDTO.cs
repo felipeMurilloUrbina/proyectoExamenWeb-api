@@ -5,12 +5,12 @@ using System.Web;
 
 namespace Proyecto.Examen.WebApi._Dtos
 {
-    public class RoleDTO
+    public class PermissionDTO
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public ICollection<RoleDTO> Roles { get; set; }
 
-        public ICollection<PermissionDTO> Permissions { get; set; }
     }
 }

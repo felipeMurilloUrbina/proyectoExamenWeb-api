@@ -7,7 +7,7 @@ using System.Web;
 
 namespace Proyecto.Examen.WebApi._Providers
 {
-    public class LoginProvider
+    public class LoginProvider: IDisposable
     {
         public MongoClient _client = null;
         string _connectionString = "";
@@ -31,6 +31,7 @@ namespace Proyecto.Examen.WebApi._Providers
         }
         public LoginProvider()
         {
+            //this._connectionString = "mongodb://felip.murillo.u@gmail.com:Master20145.@cluster0-shard-00-00-3kvuy.mongodb.net:27017,cluster0-shard-00-01-3kvuy.mongodb.net:27017,cluster0-shard-00-02-3kvuy.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true";
         }
         public LoginProvider(string connectionString)
         {
@@ -49,6 +50,19 @@ namespace Proyecto.Examen.WebApi._Providers
                 throw;
             }
         }
+        public ICollection<LoginUser> Get(string userId=null)
+        {
+            var logins=this.Database.GetCollection<LoginUser>("Logins");
+            if (string.IsNullOrEmpty(userId))
+                return logins.AsQueryable().ToList();
+            else
+                return logins.AsQueryable().Where(l => l.UserId.Equals(userId)).ToList();
+        }
 
+        public void Dispose()
+        {
+            this._database = null;
+
+        }
     }
 }

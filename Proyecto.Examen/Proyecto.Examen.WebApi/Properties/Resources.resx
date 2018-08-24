@@ -101,8 +101,12 @@
     <value>Usuario guardado correctamente.</value>
     <comment>Usuario guardado correctamente.</comment>
   </data>
-  <data name="NoFound" xml:space="preserve">
+  <data name="NotFound" xml:space="preserve">
     <value>El Registro no se encontro.</value>
     <comment>El Registro no se encontro.</comment>
+  </data>
+  <data name="AvatarOk" xml:space="preserve">
+    <value>El Avatar se subio correctamente.</value>
+    <comment>El Avatar se subio correctamente.</comment>
   </data>
 </root>

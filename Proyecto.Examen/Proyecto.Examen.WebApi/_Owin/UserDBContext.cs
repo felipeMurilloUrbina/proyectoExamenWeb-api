@@ -20,7 +20,7 @@ namespace Proyecto.Examen.WebApi._Owin
             Configuration.ProxyCreationEnabled = false;
             Configuration.LazyLoadingEnabled = false;
         }
-        //public DbSet<Conexion> Conexion { get; set; }
+        public DbSet<Permission> Permissions { get; set; }
         public static UserDBContext Create()
         {
             return new UserDBContext();
